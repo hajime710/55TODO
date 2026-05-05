@@ -1,26 +1,124 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafaf9;
-  --foreground: #1c1917;
+  --background: #f3faf6;
+  --foreground: #0f1f17;
+  --surface: #ffffff;
+  --surface-muted: #ecf6f0;
+  --border: #d6ebde;
+  --accent: #059669;
+  --accent-strong: #047857;
+  --accent-soft: #d1fae5;
+  --shadow: 0 1px 2px rgba(15, 31, 23, 0.04), 0 8px 24px rgba(15, 31, 23, 0.06);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0c0a09;
-    --foreground: #f5f5f4;
+    --background: #07110c;
+    --foreground: #e6f5ec;
+    --surface: #0f1f17;
+    --surface-muted: #122a1f;
+    --border: #1f3b2c;
+    --accent: #34d399;
+    --accent-strong: #6ee7b7;
+    --accent-soft: #0e2a1d;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 12px 32px rgba(0, 0, 0, 0.4);
   }
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 70%),
+    var(--background);
   color: var(--foreground);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
     "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo",
     system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 35%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 6px color-mix(in oklab, var(--accent) 0%, transparent);
+  }
+}
+
+@keyframes ringDraw {
+  0% {
+    stroke-dashoffset: var(--ring-circumference);
+  }
+  100% {
+    stroke-dashoffset: var(--ring-target);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-pop {
+  animation: pop 280ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.animate-shimmer {
+  animation: shimmer 700ms ease-out 1;
+}
+
+.todo-line-through {
+  position: relative;
+}
+.todo-line-through::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1.5px;
+  background: currentColor;
+  transform-origin: left center;
+  animation: lineGrow 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes lineGrow {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
 }
